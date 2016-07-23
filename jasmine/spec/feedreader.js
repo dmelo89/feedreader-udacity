@@ -35,15 +35,17 @@ $(function () {
          * if the RSS feeds are defined, but looping through each feed and looking for
          * the url value and checking if the length and content is valid.
          */
-
-        it('have valid URLs', function () {
-            for (i = 0; i < allFeeds.length; i++) {
-                expect(allFeeds[i].url).toBeDefined();
-                expect(allFeeds[i].url.length).not.toBeLessThan(9); // Checks if at least it has something more than the http:// text is there
-                expect(allFeeds[i].url).toMatch(/^http(s?)\:\/\//); // Regular expression to check if the URL contains https or http meaning that is valid
-            }
+        function checkforValidURLs(feed) {
+        it('feed have valid URL', function () {
+                expect(feed.url).toBeDefined();
+                expect(feed.url.length).not.toBeLessThan(9); // Checks if at least it has something more than the http:// text is there
+                expect(feed.url).toMatch(/^http(s?)\:\/\//); // Regular expression to check if the URL contains https or http meaning that is valid
         });
-
+        }
+        // Here I check each URL with the function checkforValidURLs, so we can know which feed has invalid URL
+        for (i = 0; i < allFeeds.length; i++) {
+            checkforValidURLs(allFeeds[i]);
+        }
         /* This test is very similar to the previous one that checks if the urls are valid, but just check if the
          * names are defined, then this is far simpler because we only check if the name is a string.
          */
@@ -101,7 +103,7 @@ $(function () {
         // within the .feed container
 
         it('there is at least a single .entry element within the .feed container', function () {
-            expect($('.entry').length).toBeGreaterThan(0);
+            expect($('.feed .entry').length).toBeGreaterThan(0);
         });
     });
     /* This is the fourth test suite - a test suite just contains
